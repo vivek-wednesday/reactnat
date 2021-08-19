@@ -3,8 +3,10 @@
  */
 import logo from 'app/assets/images/logo.png';
 import wednesdayLogo from 'app/assets/images/wednesday-logo.png';
+import gitexLogo from 'app/assets/images/ic_launcher.png';
 
 export default {
   logo,
-  wednesdayLogo
+  wednesdayLogo,
+  gitexLogo
 };

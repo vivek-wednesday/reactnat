@@ -1,9 +1,8 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --detectOpenHandles --coverage --config=jest.config.js",
@@ -49,7 +48,9 @@
     "babel-plugin-react-intl": "3.0.1",
     "babel-preset-react-native": "^4.0.1",
     "expo": "^41.0.0",
+    "expo-splash-screen": "~0.10.2",
     "expo-status-bar": "~1.0.4",
+    "expo-updates": "~0.5.4",
     "global": "^4.4.0",
     "immer": "^4.0.0",
     "immutable": "^4.0.0-rc.12",
@@ -60,11 +61,13 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-intl": "2.8.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
+    "react-native": "~0.63.4",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-reanimated": "^2.2.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.4.0",
+    "react-native-splash-screen": "^3.2.0",
+    "react-native-unimodules": "~0.13.3",
     "react-native-web": "~0.13.12",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.1.2",
@@ -140,5 +143,7 @@
       "/node_modules/(?!react-native)/.+"
     ]
   },
-  "private": true
+  "private": true,
+  "name": "reactnat",
+  "version": "1.0.0"
 }

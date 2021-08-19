@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable';
 import {
   exampleContainerReducer,
   initialState,
@@ -15,39 +16,39 @@ describe('Tests for reducers used in the ExampleScreen', () => {
     expect(exampleContainerReducer(undefined, {})).toEqual(state);
   });
 
-  it('should ensure that userLoading = true when an action of type REQUEST_FETCH_USER is dispatched', () => {
+  it('should ensure that dataIsLoading = false when an action of type REQUEST_FETCH_REPO is dispatched', () => {
     const expectedResult = state
-      .set('userIsLoading', true)
-      .set('userErrorMessage', null);
+      .set('dataIsLoading', true)
+      .set('dataErrorMessage', null);
     expect(
       exampleContainerReducer(state, {
-        type: exampleScreenTypes.REQUEST_FETCH_USER,
-        user: 'Mohammed Ali Chherawalla'
+        type: exampleScreenTypes.REQUEST_FETCH_REPO
       })
     ).toEqual(expectedResult);
   });
 
-  it('should ensure that the user data is present and userLoading = false when SUCCESS_FETCH_USER is dispatched', () => {
+  it('should ensure that the data data is present and dataLoading = false when SUCCESS_FETCH_REPO is dispatched', () => {
+    const data = fromJS({});
     const expectedResult = state
-      .set('user', { name: 'Mohammed Ali Chherawalla' })
-      .set('userIsLoading', false)
-      .set('userErrorMessage', null);
+      .set('data', fromJS({}))
+      .set('dataIsLoading', false)
+      .set('dataErrorMessage', null);
     expect(
       exampleContainerReducer(state, {
-        type: exampleScreenTypes.SUCCESS_FETCH_USER,
-        user: { name: 'Mohammed Ali Chherawalla' }
+        type: exampleScreenTypes.SUCCESS_FETCH_REPO,
+        data
       })
     ).toEqual(expectedResult);
   });
 
-  it('should ensure that the userErrorMessage has some data and userLoading = false when FAILURE_FETCH_USER is dispatched', () => {
+  it('should ensure that the dataErrorMessage has some data and dataLoading = false when FAILURE_FETCH_REPO is dispatched', () => {
     const expectedResult = state
-      .set('user', {})
-      .set('userIsLoading', false)
-      .set('userErrorMessage', 'There was some error bro');
+      .set('data', {})
+      .set('dataIsLoading', false)
+      .set('dataErrorMessage', 'There was some error bro');
     expect(
       exampleContainerReducer(state, {
-        type: exampleScreenTypes.FAILURE_FETCH_USER,
+        type: exampleScreenTypes.FAILURE_FETCH_REPO,
         errorMessage: 'There was some error bro'
       })
     ).toEqual(expectedResult);

@@ -1,44 +1,44 @@
 import { fromJS } from 'immutable';
 import {
-  selectUser,
-  selectUserIsLoading,
-  selectUserErrorMessage
+  selectData,
+  selectDataIsLoading,
+  selectDataErrorMessage
 } from '../selectors';
 
 describe('Tests for selectors to get data from state for the ExampleScreen', () => {
   let mockedState;
-  let username;
-  let userIsLoading;
-  let userErrorMessage;
+  let data;
+  let dataIsLoading;
+  let dataErrorMessage;
 
   beforeEach(() => {
-    username = 'Mohammed Ali Chherawalla';
-    userErrorMessage = 'Some error';
-    userIsLoading = false;
+    data = 'react';
+    dataErrorMessage = 'Some error';
+    dataIsLoading = false;
 
     mockedState = {
       example: fromJS({
-        user: {
-          username
+        data: {
+          data
         },
-        userErrorMessage,
-        userIsLoading
+        dataErrorMessage,
+        dataIsLoading
       })
     };
   });
 
-  it('should select the user state', () => {
-    const userSelector = selectUser();
-    expect(userSelector(mockedState)).toEqual({ username });
+  it('should select the data', () => {
+    const userSelector = selectData();
+    expect(userSelector(mockedState)).toEqual({ data });
   });
 
-  it('should select userIsLoading', () => {
-    const userIsLoadingSelector = selectUserIsLoading();
-    expect(userIsLoadingSelector(mockedState)).toEqual(userIsLoading);
+  it('should select dataIsLoading', () => {
+    const userIsLoadingSelector = selectDataIsLoading();
+    expect(userIsLoadingSelector(mockedState)).toEqual(dataIsLoading);
   });
 
-  it('should select the userErrorMessage', () => {
-    const userErrorMessageSelector = selectUserErrorMessage();
-    expect(userErrorMessageSelector(mockedState)).toEqual(userErrorMessage);
+  it('should select the dataErrorMessage', () => {
+    const userErrorMessageSelector = selectDataErrorMessage();
+    expect(userErrorMessageSelector(mockedState)).toEqual(dataErrorMessage);
   });
 });

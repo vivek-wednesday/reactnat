@@ -5,15 +5,15 @@ import { initialState } from './reducer';
 export const selectExampleDomain = state =>
   (state.example || initialState).toJS();
 
-export const selectUser = () =>
-  createSelector(selectExampleDomain, substate => get(substate, 'user', null));
+export const selectData = () =>
+  createSelector(selectExampleDomain, substate => get(substate, 'data'));
 
-export const selectUserIsLoading = () =>
+export const selectDataIsLoading = () =>
   createSelector(selectExampleDomain, substate =>
-    get(substate, 'userIsLoading', null)
+    get(substate, 'dataIsLoading')
   );
 
-export const selectUserErrorMessage = () =>
+export const selectDataErrorMessage = () =>
   createSelector(selectExampleDomain, substate =>
-    get(substate, 'userErrorMessage', null)
+    get(substate, 'dataErrorMessage')
   );

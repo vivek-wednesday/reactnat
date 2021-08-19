@@ -1,88 +1,129 @@
-import React from 'react';
-import { Platform, View, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { PropTypes } from 'prop-types';
 import styled from 'styled-components/native';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl } from 'react-intl';
+import SplashScreen from 'react-native-splash-screen';
 
 import AppContainer from '@atoms/Container';
-import SimpsonsLoveWednesday from '@organisms/SimpsonsLoveWednesday';
-
 import {
-  selectUser,
-  selectUserIsLoading,
-  selectUserErrorMessage
+  selectData,
+  selectDataIsLoading,
+  selectDataErrorMessage
 } from './selectors';
 import { exampleScreenActions } from './reducer';
 
 /**
- * This is an example of a container component.
+ * This is github container component.
  *
- * This screen displays a little help message and informations about a fake user.
+ * This screen displays the data fetched from the GitHub API.
  * Feel free to remove it.
  */
 
 const Container = styled(AppContainer)`
   margin: 30px;
   flex: 1;
-  justify-content: center;
+  align-items: center;
 `;
 
 const CustomButton = styled.Button`
-  margin-top: 40px;
+  margin-top: 0;
+  flex: 1;
 `;
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\nCmd+D or shake for dev menu.',
-  android:
-    'Double tap R on your keyboard to reload,\nShake or press menu button for dev menu.'
-});
 
-class ExampleScreen extends React.Component {
-  componentDidMount() {
-    this.requestFetchUser()();
-  }
+const CustomView = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
 
-  requestFetchUser = () => () => {
-    this.props.fetchUser();
+const CustomTextInput = styled.TextInput`
+  flex: 1;
+  border-width: 1;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 20px;
+`;
+
+const CustomScrollView = styled.ScrollView`
+  align-content: space-between;
+`;
+
+function ExampleScreen(props) {
+  const { data, dataIsLoading, dataErrorMessage, fetchData } = props;
+
+  const [input, setInput] = useState('');
+
+  React.useEffect(() => {
+    requestFetchData('react');
+  }, []);
+
+  React.useEffect(() => {
+    if (!dataIsLoading) SplashScreen.hide();
+  }, [dataIsLoading]);
+
+  const requestFetchData = rname => {
+    fetchData(rname);
   };
 
-  render() {
-    return (
-      <Container>
-        {this.props.userIsLoading ? (
-          <ActivityIndicator testID="loader" size="large" color="#0000ff" />
-        ) : (
-          <View testID="example-container-content">
-            <SimpsonsLoveWednesday
-              instructions={instructions}
-              userErrorMessage={this.props.userErrorMessage}
-              user={this.props.user}
+  return (
+    <Container testID="container">
+      {!data ? (
+        <ActivityIndicator testId="loader" />
+      ) : (
+        <View testID="example-container-content">
+          <CustomView>
+            <CustomTextInput onChangeText={text => setInput(text)} />
+            <CustomButton
+              onPress={() => requestFetchData(input)}
+              title="Search"
             />
-            <CustomButton onPress={this.requestFetchUser()} title="Refresh" />
-          </View>
-        )}
-      </Container>
-    );
-  }
+          </CustomView>
+          <Text>Showing 15 result out of {data.totalCount} results.</Text>
+          <CustomScrollView style={{ marginTop: 30 }}>
+            {data.items ? (
+              data.items.slice(0, 15).map((item, index) => (
+                <View
+                  key={index}
+                  style={{ margin: 5, borderWidth: 1, padding: 10 }}
+                >
+                  <Text>Name: {item.fullName}</Text>
+                  <Text>URL: {item.htmlUrl}</Text>
+                  <Text>Description: {item.description}</Text>
+                </View>
+              ))
+            ) : (
+              <Text testID="wait">
+                {dataErrorMessage || <ActivityIndicator testId="loader" />}
+              </Text>
+            )}
+          </CustomScrollView>
+        </View>
+      )}
+    </Container>
+  );
 }
 
 ExampleScreen.propTypes = {
-  user: PropTypes.object,
-  userIsLoading: PropTypes.bool,
-  userErrorMessage: PropTypes.string,
-  fetchUser: PropTypes.func
+  data: PropTypes.shape({
+    totalCount: PropTypes.number,
+    items: PropTypes.array
+  }),
+  dataIsLoading: PropTypes.bool,
+  dataErrorMessage: PropTypes.string,
+  fetchData: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
-  user: selectUser(),
-  userIsLoading: selectUserIsLoading(),
-  userErrorMessage: selectUserErrorMessage()
+  data: selectData(),
+  dataIsLoading: selectDataIsLoading(),
+  dataErrorMessage: selectDataErrorMessage()
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchUser: () => dispatch(exampleScreenActions.requestFetchUser())
+  fetchData: name => dispatch(exampleScreenActions.requestFetchRepo(name))
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

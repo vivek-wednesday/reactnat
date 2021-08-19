@@ -1,10 +1,11 @@
 import { create } from 'apisauce';
 import mapKeysDeep from 'map-keys-deep';
 import { camelCase, snakeCase } from 'lodash';
-import { Config } from 'app/config';
+import { Config, RepoConfig } from 'app/config';
 
 export const apiClients = {
   configApi: null,
+  github: null,
   default: null
 };
 export const getApiClient = (type = 'configApi') => apiClients[type];
@@ -12,6 +13,9 @@ export const generateApiClient = (type = 'configApi') => {
   switch (type) {
     case 'configApi':
       apiClients[type] = createApiClientWithTransForm(Config.API_URL);
+      return apiClients[type];
+    case 'github':
+      apiClients[type] = createApiClientWithTransForm(RepoConfig.API_URL);
       return apiClients[type];
     default:
       apiClients.default = createApiClientWithTransForm(Config.API_URL);

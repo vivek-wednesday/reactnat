@@ -132,7 +132,7 @@ android {
     }
 
     defaultConfig {
-        applicationId 'io.expo.gitex'
+        applicationId 'com.gitex'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
