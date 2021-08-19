@@ -204,10 +204,10 @@ exports[`<HomeScreen /> container should render and match the snapshot 1`] = `
                               "flexShrink": 1,
                             },
                             Object {
-                              "alignItems": "center",
                               "flexBasis": 0,
                               "flexGrow": 1,
                               "flexShrink": 1,
+                              "justifyContent": "space-around",
                               "marginBottom": 30,
                               "marginLeft": 30,
                               "marginRight": 30,
@@ -298,17 +298,14 @@ exports[`<HomeScreen /> container should render and match the snapshot 1`] = `
                             </View>
                           </View>
                           <Text>
-                            Showing 15 result out of 
+                            Showing 8 result out of 
                              results.
                           </Text>
                           <RCTScrollView
                             style={
                               Array [
                                 Object {
-                                  "alignContent": "space-between",
-                                },
-                                Object {
-                                  "marginTop": 30,
+                                  "marginTop": 20,
                                 },
                               ]
                             }

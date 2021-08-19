@@ -11,10 +11,10 @@ exports[`<ExampleScreen /> Container tests should render and match the snapshot 
         "flexShrink": 1,
       },
       Object {
-        "alignItems": "center",
         "flexBasis": 0,
         "flexGrow": 1,
         "flexShrink": 1,
+        "justifyContent": "space-around",
         "marginBottom": 30,
         "marginLeft": 30,
         "marginRight": 30,

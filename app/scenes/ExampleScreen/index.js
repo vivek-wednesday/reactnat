@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { PropTypes } from 'prop-types';
@@ -26,11 +26,10 @@ import { exampleScreenActions } from './reducer';
 const Container = styled(AppContainer)`
   margin: 30px;
   flex: 1;
-  align-items: center;
+  justify-content: space-around;
 `;
 
 const CustomButton = styled.Button`
-  margin-top: 0;
   flex: 1;
 `;
 
@@ -48,7 +47,7 @@ const CustomTextInput = styled.TextInput`
 `;
 
 const CustomScrollView = styled.ScrollView`
-  align-content: space-between;
+  margin-top: 20;
 `;
 
 function ExampleScreen(props) {
@@ -81,17 +80,41 @@ function ExampleScreen(props) {
               title="Search"
             />
           </CustomView>
-          <Text>Showing 15 result out of {data.totalCount} results.</Text>
-          <CustomScrollView style={{ marginTop: 30 }}>
+          <Text>Showing 8 result out of {data.totalCount} results.</Text>
+          <CustomScrollView>
             {data.items ? (
-              data.items.slice(0, 15).map((item, index) => (
+              data.items.slice(0, 8).map((item, index) => (
                 <View
                   key={index}
-                  style={{ margin: 5, borderWidth: 1, padding: 10 }}
+                  style={{
+                    marginBottom: 10,
+                    borderWidth: 1,
+                    flexDirection: 'row',
+                    borderRadius: 30,
+                    backgroundColor: 'white'
+                  }}
                 >
-                  <Text>Name: {item.fullName}</Text>
-                  <Text>URL: {item.htmlUrl}</Text>
-                  <Text>Description: {item.description}</Text>
+                  <View
+                    style={{ flex: 1, justifyContent: 'center', padding: 10 }}
+                  >
+                    <Image
+                      style={{
+                        height: 50,
+                        width: 50,
+                        alignSelf: 'center',
+                        borderRadius: 40
+                      }}
+                      source={{
+                        uri: item.owner.avatarUrl
+                      }}
+                    />
+                  </View>
+                  <View style={{ flex: 3, padding: 20 }}>
+                    <Text style={{ fontWeight: 'bold' }}>
+                      {item.owner.login}
+                    </Text>
+                    <Text>{item.name}</Text>
+                  </View>
                 </View>
               ))
             ) : (
