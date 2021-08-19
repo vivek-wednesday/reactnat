@@ -1,27 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ExampleScreen /> Container tests should render and match the snapshot 1`] = `
-<View
-  style={
-    Array [
-      Object {
-        "display": "flex",
-        "flexBasis": 0,
-        "flexGrow": 1,
-        "flexShrink": 1,
-      },
-      Object {
-        "flexBasis": 0,
-        "flexGrow": 1,
-        "flexShrink": 1,
-        "justifyContent": "space-around",
-        "marginBottom": 30,
-        "marginLeft": 30,
-        "marginRight": 30,
-        "marginTop": 30,
-      },
-    ]
-  }
+<RCTSafeAreaView
+  emulateUnlessSupported={true}
   testID="container"
 >
   <ActivityIndicator
@@ -31,5 +12,5 @@ exports[`<ExampleScreen /> Container tests should render and match the snapshot 
     size="small"
     testId="loader"
   />
-</View>
+</RCTSafeAreaView>
 `;

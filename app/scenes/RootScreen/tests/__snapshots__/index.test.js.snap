@@ -194,30 +194,17 @@ exports[`<HomeScreen /> container should render and match the snapshot 1`] = `
                         }
                       }
                     >
-                      <View
-                        style={
-                          Array [
-                            Object {
-                              "display": "flex",
-                              "flexBasis": 0,
-                              "flexGrow": 1,
-                              "flexShrink": 1,
-                            },
-                            Object {
-                              "flexBasis": 0,
-                              "flexGrow": 1,
-                              "flexShrink": 1,
-                              "justifyContent": "space-around",
-                              "marginBottom": 30,
-                              "marginLeft": 30,
-                              "marginRight": 30,
-                              "marginTop": 30,
-                            },
-                          ]
-                        }
+                      <RCTSafeAreaView
+                        emulateUnlessSupported={true}
                         testID="container"
                       >
                         <View
+                          style={
+                            Object {
+                              "maxHeight": 1334,
+                              "padding": 10,
+                            }
+                          }
                           testID="example-container-content"
                         >
                           <View
@@ -242,10 +229,7 @@ exports[`<HomeScreen /> container should render and match the snapshot 1`] = `
                                     "flexBasis": 0,
                                     "flexGrow": 1,
                                     "flexShrink": 1,
-                                    "marginBottom": 10,
-                                    "marginLeft": 10,
                                     "marginRight": 10,
-                                    "marginTop": 10,
                                     "paddingBottom": 10,
                                     "paddingLeft": 10,
                                     "paddingRight": 10,
@@ -297,17 +281,12 @@ exports[`<HomeScreen /> container should render and match the snapshot 1`] = `
                               </View>
                             </View>
                           </View>
-                          <Text>
-                            Showing 8 result out of 
-                             results.
-                          </Text>
                           <RCTScrollView
                             style={
-                              Array [
-                                Object {
-                                  "marginTop": 20,
-                                },
-                              ]
+                              Object {
+                                "height": 1067.2,
+                                "marginTop": 20,
+                              }
                             }
                           >
                             <View>
@@ -325,7 +304,7 @@ exports[`<HomeScreen /> container should render and match the snapshot 1`] = `
                             </View>
                           </RCTScrollView>
                         </View>
-                      </View>
+                      </RCTSafeAreaView>
                     </View>
                   </View>
                 </View>

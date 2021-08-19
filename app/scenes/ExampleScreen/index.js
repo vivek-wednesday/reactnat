@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, ActivityIndicator, Image } from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  Image,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  ScrollView,
+  Button,
+  SafeAreaView,
+  Dimensions
+} from 'react-native';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { PropTypes } from 'prop-types';
@@ -7,8 +19,7 @@ import styled from 'styled-components/native';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl } from 'react-intl';
 import SplashScreen from 'react-native-splash-screen';
-
-import AppContainer from '@atoms/Container';
+import { colors } from '@themes';
 import {
   selectData,
   selectDataIsLoading,
@@ -23,15 +34,7 @@ import { exampleScreenActions } from './reducer';
  * Feel free to remove it.
  */
 
-const Container = styled(AppContainer)`
-  margin: 30px;
-  flex: 1;
-  justify-content: space-around;
-`;
-
-const CustomButton = styled.Button`
-  flex: 1;
-`;
+const screenHeight = Dimensions.get('window').height;
 
 const CustomView = styled.View`
   flex-direction: row;
@@ -39,16 +42,52 @@ const CustomView = styled.View`
 `;
 
 const CustomTextInput = styled.TextInput`
-  flex: 1;
+  flex: 1
   border-width: 1;
-  margin: 10px;
   padding: 10px;
   border-radius: 20px;
+  margin-right: 10;
 `;
 
-const CustomScrollView = styled.ScrollView`
-  margin-top: 20;
-`;
+const styles = StyleSheet.create({
+  mainView: {
+    padding: Platform.OS === 'android' ? StatusBar.currentHeight : 10,
+    maxHeight: screenHeight
+  },
+  item: {
+    borderWidth: 1,
+    marginBottom: 10,
+    flexDirection: 'row',
+    borderRadius: 30,
+    backgroundColor: colors.white
+  },
+  imgView: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 10
+  },
+  img: {
+    height: 50,
+    width: 50,
+    alignSelf: 'center',
+    borderRadius: 40
+  },
+  resultString: {
+    textAlign: 'center',
+    textAlignVertical: 'center'
+  },
+  scrollView: {
+    marginTop: 20,
+    height: screenHeight * 0.8
+  },
+  repoDetails: {
+    flex: 3,
+    padding: 20
+  },
+  repoOwner: {
+    fontWeight: 'bold'
+  }
+});
 
 function ExampleScreen(props) {
   const { data, dataIsLoading, dataErrorMessage, fetchData } = props;
@@ -68,51 +107,29 @@ function ExampleScreen(props) {
   };
 
   return (
-    <Container testID="container">
+    <SafeAreaView styles={styles.safe} testID="container">
       {!data ? (
         <ActivityIndicator testId="loader" />
       ) : (
-        <View testID="example-container-content">
+        <View style={styles.mainView} testID="example-container-content">
           <CustomView>
             <CustomTextInput onChangeText={text => setInput(text)} />
-            <CustomButton
-              onPress={() => requestFetchData(input)}
-              title="Search"
-            />
+            <Button onPress={() => requestFetchData(input)} title="Search" />
           </CustomView>
-          <Text>Showing 8 result out of {data.totalCount} results.</Text>
-          <CustomScrollView>
+          <ScrollView style={styles.scrollView}>
             {data.items ? (
-              data.items.slice(0, 8).map((item, index) => (
-                <View
-                  key={index}
-                  style={{
-                    marginBottom: 10,
-                    borderWidth: 1,
-                    flexDirection: 'row',
-                    borderRadius: 30,
-                    backgroundColor: 'white'
-                  }}
-                >
-                  <View
-                    style={{ flex: 1, justifyContent: 'center', padding: 10 }}
-                  >
+              data.items.slice(0, 15).map((item, index) => (
+                <View key={index} style={styles.item}>
+                  <View style={styles.imgView}>
                     <Image
-                      style={{
-                        height: 50,
-                        width: 50,
-                        alignSelf: 'center',
-                        borderRadius: 40
-                      }}
+                      style={styles.img}
                       source={{
                         uri: item.owner.avatarUrl
                       }}
                     />
                   </View>
-                  <View style={{ flex: 3, padding: 20 }}>
-                    <Text style={{ fontWeight: 'bold' }}>
-                      {item.owner.login}
-                    </Text>
+                  <View style={styles.repoDetails}>
+                    <Text style={styles.repoOwner}>{item.owner.login}</Text>
                     <Text>{item.name}</Text>
                   </View>
                 </View>
@@ -122,10 +139,10 @@ function ExampleScreen(props) {
                 {dataErrorMessage || <ActivityIndicator testId="loader" />}
               </Text>
             )}
-          </CustomScrollView>
+          </ScrollView>
         </View>
       )}
-    </Container>
+    </SafeAreaView>
   );
 }
 
