@@ -7,7 +7,7 @@ const Container = styled(AppContainer)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${colors.white};
+  background-color: ${colors.light.background};
 `;
 
 const Logo = styled.Image`

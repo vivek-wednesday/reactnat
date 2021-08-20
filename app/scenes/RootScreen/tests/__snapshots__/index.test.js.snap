@@ -147,7 +147,7 @@ exports[`<HomeScreen /> container should render and match the snapshot 1`] = `
                   pointerEvents="none"
                   style={
                     Object {
-                      "backgroundColor": "rgb(242, 242, 242)",
+                      "backgroundColor": "#FFFFFF",
                       "bottom": 0,
                       "left": 0,
                       "position": "absolute",
@@ -172,7 +172,7 @@ exports[`<HomeScreen /> container should render and match the snapshot 1`] = `
                       },
                       Array [
                         Object {
-                          "backgroundColor": "rgb(242, 242, 242)",
+                          "backgroundColor": "#FFFFFF",
                         },
                         undefined,
                       ],
@@ -201,6 +201,7 @@ exports[`<HomeScreen /> container should render and match the snapshot 1`] = `
                         <View
                           style={
                             Object {
+                              "backgroundColor": "#fcedda",
                               "maxHeight": 1334,
                               "padding": 10,
                             }
@@ -209,33 +210,26 @@ exports[`<HomeScreen /> container should render and match the snapshot 1`] = `
                         >
                           <View
                             style={
-                              Array [
-                                Object {
-                                  "alignItems": "center",
-                                  "flexDirection": "row",
-                                },
-                              ]
+                              Object {
+                                "alignItems": "center",
+                                "flexDirection": "row",
+                              }
                             }
                           >
                             <TextInput
                               allowFontScaling={true}
                               onChangeText={[Function]}
+                              placeholder="search a repo..."
                               rejectResponderTermination={true}
                               style={
-                                Array [
-                                  Object {
-                                    "borderRadius": 20,
-                                    "borderWidth": 1,
-                                    "flexBasis": 0,
-                                    "flexGrow": 1,
-                                    "flexShrink": 1,
-                                    "marginRight": 10,
-                                    "paddingBottom": 10,
-                                    "paddingLeft": 10,
-                                    "paddingRight": 10,
-                                    "paddingTop": 10,
-                                  },
-                                ]
+                                Object {
+                                  "backgroundColor": "#FFFFFF",
+                                  "borderRadius": 20,
+                                  "borderWidth": 1,
+                                  "flex": 1,
+                                  "marginRight": 10,
+                                  "padding": 10,
+                                }
                               }
                               underlineColorAndroid="transparent"
                             />

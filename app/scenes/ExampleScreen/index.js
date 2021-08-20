@@ -10,16 +10,16 @@ import {
   ScrollView,
   Button,
   SafeAreaView,
-  Dimensions
+  Dimensions,
+  TextInput
 } from 'react-native';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { PropTypes } from 'prop-types';
-import styled from 'styled-components/native';
+import { useTheme } from '@react-navigation/native';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl } from 'react-intl';
 import SplashScreen from 'react-native-splash-screen';
-import { colors } from '@themes';
 import {
   selectData,
   selectDataIsLoading,
@@ -36,61 +36,9 @@ import { exampleScreenActions } from './reducer';
 
 const screenHeight = Dimensions.get('window').height;
 
-const CustomView = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-
-const CustomTextInput = styled.TextInput`
-  flex: 1
-  border-width: 1;
-  padding: 10px;
-  border-radius: 20px;
-  margin-right: 10;
-`;
-
-const styles = StyleSheet.create({
-  mainView: {
-    padding: Platform.OS === 'android' ? StatusBar.currentHeight : 10,
-    maxHeight: screenHeight
-  },
-  item: {
-    borderWidth: 1,
-    marginBottom: 10,
-    flexDirection: 'row',
-    borderRadius: 30,
-    backgroundColor: colors.white
-  },
-  imgView: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 10
-  },
-  img: {
-    height: 50,
-    width: 50,
-    alignSelf: 'center',
-    borderRadius: 40
-  },
-  resultString: {
-    textAlign: 'center',
-    textAlignVertical: 'center'
-  },
-  scrollView: {
-    marginTop: 20,
-    height: screenHeight * 0.8
-  },
-  repoDetails: {
-    flex: 3,
-    padding: 20
-  },
-  repoOwner: {
-    fontWeight: 'bold'
-  }
-});
-
 function ExampleScreen(props) {
   const { data, dataIsLoading, dataErrorMessage, fetchData } = props;
+  const { colors } = useTheme();
 
   const [input, setInput] = useState('');
 
@@ -106,16 +54,74 @@ function ExampleScreen(props) {
     fetchData(rname);
   };
 
+  const styles = StyleSheet.create({
+    search: {
+      flexDirection: 'row',
+      alignItems: 'center'
+    },
+    textInput: {
+      flex: 1,
+      borderWidth: 1,
+      padding: 10,
+      borderRadius: 20,
+      marginRight: 10,
+      backgroundColor: colors.background
+    },
+    mainView: {
+      padding: Platform.OS === 'android' ? StatusBar.currentHeight : 10,
+      maxHeight: screenHeight,
+      backgroundColor: colors.primary
+    },
+    item: {
+      borderWidth: 1,
+      marginBottom: 10,
+      flexDirection: 'row',
+      borderRadius: 30,
+      backgroundColor: colors.background
+    },
+    imgView: {
+      flex: 1,
+      justifyContent: 'center',
+      padding: 10
+    },
+    img: {
+      height: 50,
+      width: 50,
+      alignSelf: 'center',
+      borderRadius: 40
+    },
+    resultString: {
+      textAlign: 'center',
+      textAlignVertical: 'center'
+    },
+    scrollView: {
+      marginTop: 20,
+      height: screenHeight * 0.8
+    },
+    repoDetails: {
+      flex: 3,
+      padding: 20
+    },
+    repoOwner: {
+      fontWeight: 'bold'
+    }
+  });
+
   return (
     <SafeAreaView styles={styles.safe} testID="container">
+      <StatusBar backgroundColor={colors.primary} />
       {!data ? (
         <ActivityIndicator testId="loader" />
       ) : (
         <View style={styles.mainView} testID="example-container-content">
-          <CustomView>
-            <CustomTextInput onChangeText={text => setInput(text)} />
+          <View style={styles.search}>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={text => setInput(text)}
+              placeholder="search a repo..."
+            />
             <Button onPress={() => requestFetchData(input)} title="Search" />
-          </CustomView>
+          </View>
           <ScrollView style={styles.scrollView}>
             {data.items ? (
               data.items.slice(0, 15).map((item, index) => (
