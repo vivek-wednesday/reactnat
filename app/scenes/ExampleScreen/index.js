@@ -37,7 +37,13 @@ import { exampleScreenActions } from './reducer';
 const screenHeight = Dimensions.get('window').height;
 
 function ExampleScreen(props) {
-  const { data, dataIsLoading, dataErrorMessage, fetchData } = props;
+  const {
+    data,
+    dataIsLoading,
+    dataErrorMessage,
+    fetchData,
+    navigation
+  } = props;
   const { colors } = useTheme();
 
   const [input, setInput] = useState('');
@@ -145,6 +151,10 @@ function ExampleScreen(props) {
                 {dataErrorMessage || <ActivityIndicator testId="loader" />}
               </Text>
             )}
+            <Button
+              onPress={() => navigation.navigate('FormScreen')}
+              title="Didn't find something? contact us."
+            />
           </ScrollView>
         </View>
       )}
@@ -159,7 +169,8 @@ ExampleScreen.propTypes = {
   }),
   dataIsLoading: PropTypes.bool,
   dataErrorMessage: PropTypes.string,
-  fetchData: PropTypes.func
+  fetchData: PropTypes.func,
+  navigation: PropTypes.any
 };
 
 const mapStateToProps = createStructuredSelector({

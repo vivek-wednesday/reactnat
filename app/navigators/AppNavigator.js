@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useColorScheme } from 'react-native';
 // import SplashScreen from '@scenes/SplashScreen/';
 import ExampleScreen from '@scenes/ExampleScreen';
+import FormScreen from '@scenes/FormScreen';
 import { colors } from '@themes';
 import NavigationService from '../services/NavigationService';
 const Stack = createStackNavigator();
@@ -32,6 +33,7 @@ export default function AppNavigator() {
     >
       <Stack.Navigator headerMode="none" initialRouteName="ExampleScreen">
         <Stack.Screen name="MainScreen" component={ExampleScreen} />
+        <Stack.Screen name="FormScreen" component={FormScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -16,7 +16,7 @@ describe('Tests for reducers used in the ExampleScreen', () => {
     expect(exampleContainerReducer(undefined, {})).toEqual(state);
   });
 
-  it('should ensure that dataIsLoading = false when an action of type REQUEST_FETCH_REPO is dispatched', () => {
+  it('should ensure that dataIsLoading = true when an action of type REQUEST_FETCH_REPO is dispatched', () => {
     const expectedResult = state
       .set('dataIsLoading', true)
       .set('dataErrorMessage', null);
