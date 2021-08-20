@@ -7,7 +7,7 @@ const Container = styled(AppContainer)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${colors.primary};
+  background-color: ${colors.light.background};
 `;
 
 const Logo = styled.Image`
@@ -19,7 +19,7 @@ const Logo = styled.Image`
 
 const SplashScreen = () => (
   <Container testID="splash-screen">
-    <Logo source={images.wednesdayLogo} resizeMode="contain" />
+    <Logo source={images.gitexLogo} resizeMode="contain" />
   </Container>
 );
 

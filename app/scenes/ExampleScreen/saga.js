@@ -1,6 +1,5 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
-import { get } from 'lodash';
-import { getUser } from 'app/services/UserService';
+import { getRepos } from 'app/services/RepoService';
 import { exampleScreenActions, exampleScreenTypes } from './reducer';
 
 /**
@@ -9,20 +8,20 @@ import { exampleScreenActions, exampleScreenTypes } from './reducer';
  * This example saga contains only one to fetch fake user informations.
  * Feel free to remove it.
  */
-export function* fetchUser() {
-  const response = yield call(getUser);
+export function* fetchData(action) {
+  const response = yield call(getRepos, action.name);
   if (response.ok) {
     const { data } = response;
-    yield put(exampleScreenActions.successFetchUser(get(data, '0')));
+    yield put(exampleScreenActions.successFetchRepo(data));
   } else {
     yield put(
-      exampleScreenActions.failureFetchUser(
-        'There was an error while fetching user informations.'
+      exampleScreenActions.failureFetchRepo(
+        'There was an error while fetching repo informations.'
       )
     );
   }
 }
 
 export default function* searchListContainerSaga() {
-  yield takeLatest(exampleScreenTypes.REQUEST_FETCH_USER, fetchUser);
+  yield takeLatest(exampleScreenTypes.REQUEST_FETCH_REPO, fetchData);
 }

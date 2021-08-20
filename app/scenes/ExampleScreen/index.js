@@ -1,88 +1,175 @@
-import React from 'react';
-import { Platform, View, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  Image,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  ScrollView,
+  Button,
+  SafeAreaView,
+  Dimensions,
+  TextInput
+} from 'react-native';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { PropTypes } from 'prop-types';
-import styled from 'styled-components/native';
+import { useTheme } from '@react-navigation/native';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl } from 'react-intl';
-
-import AppContainer from '@atoms/Container';
-import SimpsonsLoveWednesday from '@organisms/SimpsonsLoveWednesday';
-
+import SplashScreen from 'react-native-splash-screen';
 import {
-  selectUser,
-  selectUserIsLoading,
-  selectUserErrorMessage
+  selectData,
+  selectDataIsLoading,
+  selectDataErrorMessage
 } from './selectors';
 import { exampleScreenActions } from './reducer';
 
 /**
- * This is an example of a container component.
+ * This is github container component.
  *
- * This screen displays a little help message and informations about a fake user.
+ * This screen displays the data fetched from the GitHub API.
  * Feel free to remove it.
  */
 
-const Container = styled(AppContainer)`
-  margin: 30px;
-  flex: 1;
-  justify-content: center;
-`;
+const screenHeight = Dimensions.get('window').height;
 
-const CustomButton = styled.Button`
-  margin-top: 40px;
-`;
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\nCmd+D or shake for dev menu.',
-  android:
-    'Double tap R on your keyboard to reload,\nShake or press menu button for dev menu.'
-});
+function ExampleScreen(props) {
+  const { data, dataIsLoading, dataErrorMessage, fetchData } = props;
+  const { colors } = useTheme();
 
-class ExampleScreen extends React.Component {
-  componentDidMount() {
-    this.requestFetchUser()();
-  }
+  const [input, setInput] = useState('');
 
-  requestFetchUser = () => () => {
-    this.props.fetchUser();
+  React.useEffect(() => {
+    requestFetchData('react');
+  }, []);
+
+  React.useEffect(() => {
+    if (!dataIsLoading) SplashScreen.hide();
+  }, [dataIsLoading]);
+
+  const requestFetchData = rname => {
+    fetchData(rname);
   };
 
-  render() {
-    return (
-      <Container>
-        {this.props.userIsLoading ? (
-          <ActivityIndicator testID="loader" size="large" color="#0000ff" />
-        ) : (
-          <View testID="example-container-content">
-            <SimpsonsLoveWednesday
-              instructions={instructions}
-              userErrorMessage={this.props.userErrorMessage}
-              user={this.props.user}
+  const styles = StyleSheet.create({
+    search: {
+      flexDirection: 'row',
+      alignItems: 'center'
+    },
+    textInput: {
+      flex: 1,
+      borderWidth: 1,
+      padding: 10,
+      borderRadius: 20,
+      marginRight: 10,
+      backgroundColor: colors.background
+    },
+    mainView: {
+      padding: Platform.OS === 'android' ? StatusBar.currentHeight : 10,
+      maxHeight: screenHeight,
+      backgroundColor: colors.primary
+    },
+    item: {
+      borderWidth: 1,
+      marginBottom: 10,
+      flexDirection: 'row',
+      borderRadius: 30,
+      backgroundColor: colors.background
+    },
+    imgView: {
+      flex: 1,
+      justifyContent: 'center',
+      padding: 10
+    },
+    img: {
+      height: 50,
+      width: 50,
+      alignSelf: 'center',
+      borderRadius: 40
+    },
+    resultString: {
+      textAlign: 'center',
+      textAlignVertical: 'center'
+    },
+    scrollView: {
+      marginTop: 20,
+      height: screenHeight * 0.8
+    },
+    repoDetails: {
+      flex: 3,
+      padding: 20
+    },
+    repoOwner: {
+      fontWeight: 'bold'
+    }
+  });
+
+  return (
+    <SafeAreaView styles={styles.safe} testID="container">
+      <StatusBar backgroundColor={colors.primary} />
+      {!data ? (
+        <ActivityIndicator testId="loader" />
+      ) : (
+        <View style={styles.mainView} testID="example-container-content">
+          <View style={styles.search}>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={text => setInput(text)}
+              placeholder="search a repo..."
             />
-            <CustomButton onPress={this.requestFetchUser()} title="Refresh" />
+            <Button onPress={() => requestFetchData(input)} title="Search" />
           </View>
-        )}
-      </Container>
-    );
-  }
+          <ScrollView style={styles.scrollView}>
+            {data.items ? (
+              data.items.slice(0, 15).map((item, index) => (
+                <View key={index} style={styles.item}>
+                  <View style={styles.imgView}>
+                    <Image
+                      style={styles.img}
+                      source={{
+                        uri: item.owner.avatarUrl
+                      }}
+                    />
+                  </View>
+                  <View style={styles.repoDetails}>
+                    <Text style={styles.repoOwner}>{item.owner.login}</Text>
+                    <Text>{item.name}</Text>
+                  </View>
+                </View>
+              ))
+            ) : (
+              <Text testID="wait">
+                {dataErrorMessage || <ActivityIndicator testId="loader" />}
+              </Text>
+            )}
+          </ScrollView>
+        </View>
+      )}
+    </SafeAreaView>
+  );
 }
 
 ExampleScreen.propTypes = {
-  user: PropTypes.object,
-  userIsLoading: PropTypes.bool,
-  userErrorMessage: PropTypes.string,
-  fetchUser: PropTypes.func
+  data: PropTypes.shape({
+    totalCount: PropTypes.number,
+    items: PropTypes.array
+  }),
+  dataIsLoading: PropTypes.bool,
+  dataErrorMessage: PropTypes.string,
+  fetchData: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
-  user: selectUser(),
-  userIsLoading: selectUserIsLoading(),
-  userErrorMessage: selectUserErrorMessage()
+  data: selectData(),
+  dataIsLoading: selectDataIsLoading(),
+  dataErrorMessage: selectDataErrorMessage()
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchUser: () => dispatch(exampleScreenActions.requestFetchUser())
+  fetchData: name => dispatch(exampleScreenActions.requestFetchRepo(name))
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

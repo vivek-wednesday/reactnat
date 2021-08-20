@@ -6,33 +6,33 @@ export const {
   Creators: exampleScreenActions
 } = createActions({
   // Fetch user informations
-  requestFetchUser: null,
+  requestFetchRepo: ['name'],
   // User information was successfully fetched
-  successFetchUser: ['user'],
+  successFetchRepo: ['data'],
   // An error occurred
-  failureFetchUser: ['errorMessage']
+  failureFetchRepo: ['errorMessage']
 });
 
 export const initialState = fromJS({
-  user: {},
-  userIsLoading: false,
-  userErrorMessage: null
+  data: {},
+  dataIsLoading: false,
+  dataErrorMessage: null
 });
 
-export const fetchUser = state =>
-  state.set('userIsLoading', true).set('userErrorMessage', null);
+export const fetchRepo = state =>
+  state.set('dataIsLoading', true).set('dataErrorMessage', null);
 
-export const successFetchUser = (state, { user }) =>
+export const successFetchRepo = (state, { data }) =>
   state
-    .set('user', user)
-    .set('userIsLoading', false)
-    .set('userErrorMessage', null);
+    .set('data', data)
+    .set('dataIsLoading', false)
+    .set('dataErrorMessage', null);
 
-export const failureFetchUser = (state, { errorMessage }) =>
+export const failureFetchRepo = (state, { errorMessage }) =>
   state
-    .set('user', {})
-    .set('userIsLoading', false)
-    .set('userErrorMessage', errorMessage);
+    .set('data', {})
+    .set('dataIsLoading', false)
+    .set('dataErrorMessage', errorMessage);
 
 /**
  * @see https://github.com/infinitered/reduxsauce#createreducer
@@ -40,12 +40,12 @@ export const failureFetchUser = (state, { errorMessage }) =>
 export const exampleContainerReducer = (state = initialState, action) =>
   produce(state, () => {
     switch (action.type) {
-      case exampleScreenTypes.REQUEST_FETCH_USER:
-        return fetchUser(state, action);
-      case exampleScreenTypes.SUCCESS_FETCH_USER:
-        return successFetchUser(state, action);
-      case exampleScreenTypes.FAILURE_FETCH_USER:
-        return failureFetchUser(state, action);
+      case exampleScreenTypes.REQUEST_FETCH_REPO:
+        return fetchRepo(state, action);
+      case exampleScreenTypes.SUCCESS_FETCH_REPO:
+        return successFetchRepo(state, action);
+      case exampleScreenTypes.FAILURE_FETCH_REPO:
+        return failureFetchRepo(state, action);
       default:
         return state;
     }

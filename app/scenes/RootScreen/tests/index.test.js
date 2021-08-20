@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { renderWithIntl } from 'app/utils/testUtils';
+import { renderProvider } from 'app/utils/testUtils';
 import { RootScreen as RootScreenTest } from '../index';
 
 describe('<HomeScreen /> container', () => {
@@ -16,17 +16,17 @@ describe('<HomeScreen /> container', () => {
   });
 
   it('should render and match the snapshot', () => {
-    const baseElement = renderWithIntl(<RootScreenTest startup={submitSpy} />);
+    const baseElement = renderProvider(<RootScreenTest startup={submitSpy} />);
     expect(baseElement).toMatchSnapshot();
   });
 
   it('should call the startup prop on mount', () => {
-    renderWithIntl(<RootScreenTest startup={submitSpy} />);
+    renderProvider(<RootScreenTest startup={submitSpy} />);
     expect(submitSpy).toHaveBeenCalled();
   });
 
   it('should not render rootSceen Container', () => {
-    const { getByTestId } = renderWithIntl(
+    const { getByTestId } = renderProvider(
       <RootScreenTest startup={submitSpy} />
     );
     expect(getByTestId('root-screen').type).toBe('View');

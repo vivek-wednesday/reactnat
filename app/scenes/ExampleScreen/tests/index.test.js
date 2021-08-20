@@ -13,31 +13,40 @@ describe('<ExampleScreen /> Container tests', () => {
 
   beforeAll(() => {
     submitSpy = jest.fn();
+    jest.mock('./__mocks__/react-native-splash-screen');
   });
 
   it('should render and match the snapshot', () => {
     const baseElement = renderProvider(
-      <ExampleScreenTest fetchUser={submitSpy} />
+      <ExampleScreenTest fetchData={submitSpy} />
     );
     expect(baseElement).toMatchSnapshot();
   });
 
   it('should fetch the user data on mount', () => {
-    renderProvider(<ExampleScreenTest fetchUser={submitSpy} />);
+    renderProvider(<ExampleScreenTest fetchData={submitSpy} />);
     expect(submitSpy).toHaveBeenCalled();
   });
-  it('should render ActivityIndicator if userIsLoading is true', () => {
+
+  it('should render container', () => {
     const { getByTestId } = renderProvider(
-      <ExampleScreenTest fetchUser={submitSpy} userIsLoading />
+      <ExampleScreenTest fetchData={submitSpy} />
     );
-
-    expect(getByTestId('loader').type).toBe('ActivityIndicator');
+    expect(getByTestId('container')).toBeTruthy();
     expect(submitSpy).toHaveBeenCalled();
   });
 
-  it('should not render ActivityIndicator if userIsLoading is false, should instead render exampleContainerContent', () => {
+  it('should wait for data', () => {
     const { getByTestId } = renderProvider(
-      <ExampleScreenTest fetchUser={submitSpy} userIsLoading={false} />
+      <ExampleScreenTest fetchData={submitSpy} data={{ items: undefined }} />
+    );
+    expect(getByTestId('wait').type).toBe('Text');
+    expect(submitSpy).toHaveBeenCalled();
+  });
+
+  it('should render repo if data is present', () => {
+    const { getByTestId } = renderProvider(
+      <ExampleScreenTest fetchData={() => 0} data />
     );
     expect(getByTestId('example-container-content').type).toBe('View');
     expect(submitSpy).toHaveBeenCalled();
