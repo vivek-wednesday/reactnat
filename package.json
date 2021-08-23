@@ -51,6 +51,7 @@
     "expo-splash-screen": "~0.10.2",
     "expo-status-bar": "~1.0.4",
     "expo-updates": "~0.5.4",
+    "formik": "^2.2.9",
     "global": "^4.4.0",
     "immer": "^4.0.0",
     "immutable": "^4.0.0-rc.12",
@@ -62,7 +63,9 @@
     "react-dom": "16.13.1",
     "react-intl": "2.8.0",
     "react-native": "~0.63.4",
+    "react-native-datepicker": "^1.7.2",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-keyboard-aware-scroll-view": "^0.9.4",
     "react-native-reanimated": "^2.2.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.4.0",
@@ -77,7 +80,8 @@
     "redux-saga": "^1.0.2",
     "reduxsauce": "^1.0.1",
     "reselect": "^4.0.0",
-    "styled-components": "^4.4.0"
+    "styled-components": "^4.4.0",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
