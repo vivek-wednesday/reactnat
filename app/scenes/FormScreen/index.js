@@ -12,6 +12,8 @@ import { Formik } from 'formik';
 import DatePicker from 'react-native-datepicker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 const SubmitSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email')
@@ -22,7 +24,10 @@ const SubmitSchema = Yup.object().shape({
   description: Yup.string()
     .min(80, 'Too Short!')
     .required('Please add a short description.'),
-  date: Yup.date().required('Please enter dob.')
+  date: Yup.string()
+    .max(11, 'Is this a date')
+    .required('Please enter dob.'),
+  contact: Yup.string().matches(phoneRegExp, 'Phone number is not valid')
 });
 
 function FormScreen() {
@@ -91,6 +96,7 @@ function FormScreen() {
                     onBlur={handleBlur('email')}
                     value={values.email}
                     style={styles.input}
+                    placeholder="Please enter email"
                   />
                 </View>
                 {errors.email ? (
@@ -103,6 +109,7 @@ function FormScreen() {
                     onBlur={handleBlur('subject')}
                     value={values.subject}
                     style={styles.input}
+                    placeholder="Please enter subject"
                   />
                 </View>
                 {errors.subject ? (
@@ -115,6 +122,7 @@ function FormScreen() {
                     onBlur={handleBlur('description')}
                     value={values.description}
                     style={styles.description}
+                    placeholder="Describe your concern"
                   />
                 </View>
                 {errors.description ? (
@@ -128,8 +136,12 @@ function FormScreen() {
                     value={values.contact}
                     keyboardType="numeric"
                     style={styles.input}
+                    placeholder="Enter your contact info"
                   />
                 </View>
+                {errors.contact ? (
+                  <Text style={styles.error}>{errors.contact}</Text>
+                ) : null}
                 <View style={styles.row}>
                   <Text style={styles.text}>Date of Birth</Text>
                   <DatePicker
@@ -150,6 +162,9 @@ function FormScreen() {
                     onBlur={handleBlur('date')}
                   />
                 </View>
+                {errors.date ? (
+                  <Text style={styles.error}>{errors.date}</Text>
+                ) : null}
                 <View style={styles.submitView}>
                   <Button onPress={handleSubmit} title="Submit" />
                 </View>
